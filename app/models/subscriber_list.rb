@@ -53,14 +53,22 @@ class SubscriberList < ApplicationRecord
 private
 
   def tag_values_are_valid
-    unless self[:tags].all? { |_, v| v.is_a?(Array) }
+    unless valid_subscriber_criteria(:tags)
       self.errors.add(:tags, "All tag values must be sent as Arrays")
     end
   end
 
   def link_values_are_valid
-    unless self[:links].all? { |_, v| v.is_a?(Array) }
+    unless valid_subscriber_criteria(:links)
       self.errors.add(:links, "All link values must be sent as Arrays")
+    end
+  end
+
+  def valid_subscriber_criteria(link_or_tags)
+    self[link_or_tags].values.all? do |hash|
+      hash.all? do |operator, values|
+        %w[all any].include?(operator) && values.is_a?(Array)
+      end
     end
   end
 end

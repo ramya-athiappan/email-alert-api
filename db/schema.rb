@@ -138,6 +138,7 @@ ActiveRecord::Schema.define(version: 2018_11_19_131532) do
     t.uuid "subscription_id", null: false
     t.uuid "content_change_id", null: false
     t.index ["content_change_id"], name: "index_subscription_contents_on_content_change_id"
+    t.index ["created_at"], name: "index_subscription_contents_on_created_at"
     t.index ["digest_run_subscriber_id"], name: "index_subscription_contents_on_digest_run_subscriber_id"
     t.index ["email_id"], name: "index_subscription_contents_on_email_id"
     t.index ["subscription_id", "content_change_id"], name: "index_subscription_contents_on_subscription_and_content_change", unique: true
